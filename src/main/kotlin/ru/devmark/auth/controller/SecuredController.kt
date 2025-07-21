@@ -15,6 +15,6 @@ class SecuredController(
 
     @GetMapping("/info")
     fun info(
-        @CurrentUser user: UserDetails, // todo сделать так, чтобы тут всегда грузилась информация о пользователе, если токен валидный
+        @CurrentUser user: UserDetails,
     ): String = businessLogicService.getInfo()
 }

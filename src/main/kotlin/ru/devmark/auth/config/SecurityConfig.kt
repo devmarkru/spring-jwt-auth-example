@@ -12,13 +12,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 class SecurityConfig(
     private val jwtFilter: JwtFilter,
+    private val authenticationEntryPoint: RestAuthenticationEntryPoint,
 ) {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            // todo добавить exceptionHandling c authenticationEntryPoint, чтобы корректно возвращать json в случае ошибки
+            .exceptionHandling { it.authenticationEntryPoint(authenticationEntryPoint) }
             .authorizeHttpRequests {
                 it.requestMatchers("/jwt/**").permitAll()
                     .anyRequest().authenticated()
