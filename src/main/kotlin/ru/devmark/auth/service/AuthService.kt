@@ -21,7 +21,7 @@ class AuthService(
         }
         userRepository.updateLastLogin(user.id)
         val refresh = jwtUtil.generateRefreshToken(login)
-        val access = jwtUtil.generateAccessToken(login, user.firstName, user.lastName)
+        val access = jwtUtil.generateAccessToken(login, user.firstName, user.lastName, user.role)
         return TokenPair(refresh, access)
     }
 
@@ -35,7 +35,7 @@ class AuthService(
             ?: throw IllegalArgumentException("Invalid refresh token")
         userRepository.updateLastLogin(user.id)
         val refresh = jwtUtil.generateRefreshToken(login)
-        val access = jwtUtil.generateAccessToken(login, user.firstName, user.lastName)
+        val access = jwtUtil.generateAccessToken(login, user.firstName, user.lastName, user.role)
         return TokenPair(refresh, access)
     }
 }

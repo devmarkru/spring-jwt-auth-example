@@ -7,6 +7,7 @@ data class PersonEntity(
     val login: String,
     val firstName: String,
     val lastName: String,
+    val role: String,
     val passwordHash: String,
     val created: LocalDateTime,
     val lastLogin: LocalDateTime,

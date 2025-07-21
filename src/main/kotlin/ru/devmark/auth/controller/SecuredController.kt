@@ -1,6 +1,7 @@
 package ru.devmark.auth.controller
 
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -17,4 +18,8 @@ class SecuredController(
     fun info(
         @CurrentUser user: UserDetails,
     ): String = businessLogicService.getInfo()
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    fun adminInfo(@CurrentUser user: UserDetails): String = businessLogicService.getAdminInfo()
 }

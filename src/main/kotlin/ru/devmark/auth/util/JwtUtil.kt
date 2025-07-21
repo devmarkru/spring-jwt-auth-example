@@ -13,12 +13,13 @@ class JwtUtil(
 ) {
     private val key = Keys.hmacShaKeyFor(props.secret.toByteArray())
 
-    fun generateAccessToken(login: String, firstName: String, lastName: String): String =
+    fun generateAccessToken(login: String, firstName: String, lastName: String, role: String): String =
         Jwts.builder()
             .subject(login)
             .claim("type", "access")
             .claim("firstName", firstName)
             .claim("lastName", lastName)
+            .claim("role", role)
             .expiration(Date.from(Instant.now().plusSeconds(props.accessLifetimeSec)))
             .signWith(key)
             .compact()
