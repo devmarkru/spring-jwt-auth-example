@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import ru.devmark.auth.util.JwtUtil
 
-private const val BEARER_PREFIX = "Bearer "
-
 @Component
 class JwtFilter(
     private val jwtUtil: JwtUtil,
@@ -32,5 +30,9 @@ class JwtFilter(
             }
         }
         filterChain.doFilter(request, response)
+    }
+
+    private companion object {
+        private const val BEARER_PREFIX = "Bearer "
     }
 }

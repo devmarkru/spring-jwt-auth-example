@@ -9,4 +9,5 @@ spring:
 
 jwt:
   secret: 5779f9d216255512fefeb3308a1ad627
-  refresh-ttl: 604800
+  refresh-lifetime-sec: 600
+  access-lifetime-sec: 300

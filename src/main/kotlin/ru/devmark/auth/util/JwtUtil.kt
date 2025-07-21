@@ -3,13 +3,13 @@ package ru.devmark.auth.util
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
-import ru.devmark.auth.config.JwtProperties
+import ru.devmark.auth.config.JwtConfig
 import java.time.Instant
 import java.util.Date
 
 @Component
 class JwtUtil(
-    private val props: JwtProperties,
+    private val props: JwtConfig,
 ) {
     private val key = Keys.hmacShaKeyFor(props.secret.toByteArray())
 
@@ -19,7 +19,7 @@ class JwtUtil(
             .claim("type", "access")
             .claim("firstName", firstName)
             .claim("lastName", lastName)
-            .expiration(Date.from(Instant.now().plusSeconds(props.accessTtl)))
+            .expiration(Date.from(Instant.now().plusSeconds(props.accessLifetimeSec)))
             .signWith(key)
             .compact()
 
@@ -27,7 +27,7 @@ class JwtUtil(
         Jwts.builder()
             .subject(login)
             .claim("type", "refresh")
-            .expiration(Date.from(Instant.now().plusSeconds(props.refreshTtl)))
+            .expiration(Date.from(Instant.now().plusSeconds(props.refreshLifetimeSec)))
             .signWith(key)
             .compact()
 

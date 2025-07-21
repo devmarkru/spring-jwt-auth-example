@@ -18,6 +18,7 @@ class SecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            // todo добавить exceptionHandling c authenticationEntryPoint, чтобы корректно возвращать json в случае ошибки
             .authorizeHttpRequests {
                 it.requestMatchers("/jwt/**").permitAll()
                     .anyRequest().authenticated()
