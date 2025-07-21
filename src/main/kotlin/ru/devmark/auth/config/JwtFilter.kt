@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import ru.devmark.auth.util.JwtUtil
 
+private const val BEARER_PREFIX = "Bearer "
+
 @Component
 class JwtFilter(
     private val jwtUtil: JwtUtil,
@@ -21,8 +23,8 @@ class JwtFilter(
         filterChain: FilterChain,
     ) {
         val auth = request.getHeader(HttpHeaders.AUTHORIZATION)
-        if (auth != null && auth.startsWith("Bearer ")) { // todo вынести в константу или найти подходящую в стандартной библиотеке
-            val token = auth.substring(7) // не хардкодить длину, а вычислять на основе константы
+        if (auth != null && auth.startsWith(BEARER_PREFIX)) {
+            val token = auth.substring(BEARER_PREFIX.length)
             val login = jwtUtil.extractLogin(token)
             if (login != null && !jwtUtil.isRefreshToken(token)) {
                 val authentication = UsernamePasswordAuthenticationToken(login, null, emptyList())
