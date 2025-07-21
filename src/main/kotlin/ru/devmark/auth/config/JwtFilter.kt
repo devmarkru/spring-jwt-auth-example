@@ -21,8 +21,8 @@ class JwtFilter(
         filterChain: FilterChain,
     ) {
         val auth = request.getHeader(HttpHeaders.AUTHORIZATION)
-        if (auth != null && auth.startsWith("Bearer ")) {
-            val token = auth.substring(7)
+        if (auth != null && auth.startsWith("Bearer ")) { // todo вынести в константу или найти подходящую в стандартной библиотеке
+            val token = auth.substring(7) // не хардкодить длину, а вычислять на основе константы
             val login = jwtUtil.extractLogin(token)
             if (login != null && !jwtUtil.isRefreshToken(token)) {
                 val authentication = UsernamePasswordAuthenticationToken(login, null, emptyList())

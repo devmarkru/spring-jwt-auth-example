@@ -12,7 +12,7 @@ class JwtUtil(
     @Value("\${jwt.secret}")
     secret: String,
     @Value("\${jwt.refresh-ttl}")
-    private val refreshTtl: Long,
+    private val refreshTtl: Long, // todo для всех параметров jwt из application.yml создать отдельный ConfigurationProperties
 ) {
     private val key = Keys.hmacShaKeyFor(secret.toByteArray())
 
@@ -22,7 +22,7 @@ class JwtUtil(
             .claim("type", "access")
             .claim("firstName", firstName)
             .claim("lastName", lastName)
-            .expiration(Date.from(Instant.now().plusSeconds(300)))
+            .expiration(Date.from(Instant.now().plusSeconds(300))) // todo время жизни accessToken также вынести в конфиг
             .signWith(key)
             .compact()
 

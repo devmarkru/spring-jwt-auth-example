@@ -8,4 +8,5 @@ spring:
     driverClassName: org.h2.Driver
 
 jwt:
+  secret: 5779f9d216255512fefeb3308a1ad627
   refresh-ttl: 604800
