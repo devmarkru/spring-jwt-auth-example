@@ -6,3 +6,6 @@ spring:
     username: sa
     password: password
     driverClassName: org.h2.Driver
+
+jwt:
+  refresh-ttl: 604800
