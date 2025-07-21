@@ -8,6 +8,8 @@ plugins {
 group = "ru.devmark"
 version = "1.0.0"
 
+val jwtVersion = "0.12.6"
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -24,7 +26,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
     runtimeOnly("com.h2database:h2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
 }
 
 kotlin {
