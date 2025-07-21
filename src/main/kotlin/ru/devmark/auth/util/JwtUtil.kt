@@ -2,19 +2,16 @@ package ru.devmark.auth.util
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import ru.devmark.auth.config.JwtProperties
 import java.time.Instant
 import java.util.Date
 
 @Component
 class JwtUtil(
-    @Value("\${jwt.secret}")
-    secret: String,
-    @Value("\${jwt.refresh-ttl}")
-    private val refreshTtl: Long, // todo для всех параметров jwt из application.yml создать отдельный ConfigurationProperties
+    private val props: JwtProperties,
 ) {
-    private val key = Keys.hmacShaKeyFor(secret.toByteArray())
+    private val key = Keys.hmacShaKeyFor(props.secret.toByteArray())
 
     fun generateAccessToken(login: String, firstName: String, lastName: String): String =
         Jwts.builder()
@@ -22,7 +19,7 @@ class JwtUtil(
             .claim("type", "access")
             .claim("firstName", firstName)
             .claim("lastName", lastName)
-            .expiration(Date.from(Instant.now().plusSeconds(300))) // todo время жизни accessToken также вынести в конфиг
+            .expiration(Date.from(Instant.now().plusSeconds(props.accessTtl)))
             .signWith(key)
             .compact()
 
@@ -30,7 +27,7 @@ class JwtUtil(
         Jwts.builder()
             .subject(login)
             .claim("type", "refresh")
-            .expiration(Date.from(Instant.now().plusSeconds(refreshTtl)))
+            .expiration(Date.from(Instant.now().plusSeconds(props.refreshTtl)))
             .signWith(key)
             .compact()
 
