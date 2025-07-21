@@ -12,9 +12,11 @@ class UserRepository(
     fun findByLogin(login: String): PersonEntity? =
         jdbcClient.sql(
             """
-                select id, login, first_name, last_name, password_hash, created, last_login
-                from person
-                where login = :login
+                select p.id, p.login, p.first_name, p.last_name, p.password_hash, p.created,
+                       p.last_login, r.role_name
+                from person p
+                join role r on r.id = p.role_id
+                where p.login = :login
             """
         )
             .param("login", login)
@@ -35,6 +37,7 @@ class UserRepository(
                 login = rs.getString("login"),
                 firstName = rs.getString("first_name"),
                 lastName = rs.getString("last_name"),
+                role = rs.getString("role_name"),
                 passwordHash = rs.getString("password_hash"),
                 created = rs.getTimestamp("created").toLocalDateTime(),
                 lastLogin = rs.getTimestamp("last_login").toLocalDateTime(),
