@@ -24,5 +24,5 @@ values (
     '$2b$12$wR/8g2e5TYKYvbWe1YxAYePzkMF3/kT5w0oj3a1OaNLOrTgfBh2r.',
     current_timestamp,
     current_timestamp,
-    (select id from role where role_name = 'user')
+    (select id from role where role_name = 'admin')
 );

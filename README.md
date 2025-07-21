@@ -3,14 +3,10 @@
 
 Перед запуском приложение ожидает переменную окружения `JWT_SECRET`,
 которая используется для подписи JWT‑токенов. Срок жизни refresh‑токена
-настраивается свойством `jwt.refresh-ttl` (в секундах) в `application.yml`.
+настраивается свойством `jwt.refresh-lifetime-sec` (в секундах) в `application.yml`.
+Аналогично время жизни access-токена определяется через параметр `jwt.access-lifetime-sec`.
 
-Проект содержит простой `Dockerfile` для сборки контейнера:
-
-```bash
-docker build -t spring-jwt .
-```
-
+## База данных
 При старте приложения H2 создаёт таблицы автоматически благодаря файлу `schema.sql`.
 Ниже приведены SQL‑скрипты для создания схемы вручную:
 
@@ -41,6 +37,13 @@ values (
     '$2b$12$wR/8g2e5TYKYvbWe1YxAYePzkMF3/kT5w0oj3a1OaNLOrTgfBh2r.',
     current_timestamp,
     current_timestamp,
-    (select id from role where role_name = 'user')
+    (select id from role where role_name = 'admin')
 );
+```
+
+## Deploy
+Проект содержит простой `Dockerfile` для сборки контейнера:
+
+```bash
+docker build -t spring-jwt .
 ```
